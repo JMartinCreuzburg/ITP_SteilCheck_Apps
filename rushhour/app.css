@@ -1,0 +1,197 @@
+/* Rush-Hour an der Theke – Werkzeug für Block 1, Phase 2.
+   Hell und dunkel, ab Smartphone-Breite. Die Handschrift (Excalifont) kommt aus der
+   Begleitpräsentation; fehlt sie, gilt die Systemschrift. */
+@font-face {
+  font-family: "Excalifont";
+  src: url("fonts/Excalifont-Latin.woff2") format("woff2"),
+       url("../../praesentation/lib/fonts/Excalifont-Latin.woff2") format("woff2");
+  font-display: swap;
+}
+
+:root {
+  --papier: #fbf6ef;
+  --karte: #ffffff;
+  --tinte: #1d1d1f;
+  --leise: #5f5a54;
+  --linie: #2a2a2a;
+  --zart: #e7dfd4;
+  --blau: #d8e8f6;
+  --blau-d: #24598f;
+  --gruen: #dcefd9;
+  --gruen-d: #2d6a2a;
+  --gelb: #fbefc4;
+  --rot: #f8dcda;
+  --rot-d: #a3271f;
+  --fokus: #24598f;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --papier: #1c1b1a;
+    --karte: #262524;
+    --tinte: #f2eee9;
+    --leise: #b8b1a8;
+    --linie: #d8d2ca;
+    --zart: #3a3836;
+    --blau: #1f3550;
+    --blau-d: #9cc6ee;
+    --gruen: #1f3a1e;
+    --gruen-d: #9fd69a;
+    --gelb: #3d3519;
+    --rot: #4a2321;
+    --rot-d: #ffaaa3;
+    --fokus: #9cc6ee;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --papier: #1c1b1a; --karte: #262524; --tinte: #f2eee9; --leise: #b8b1a8; --linie: #d8d2ca;
+  --zart: #3a3836; --blau: #1f3550; --blau-d: #9cc6ee; --gruen: #1f3a1e; --gruen-d: #9fd69a;
+  --gelb: #3d3519; --rot: #4a2321; --rot-d: #ffaaa3; --fokus: #9cc6ee; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--papier);
+  color: var(--tinte);
+  font: 17px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+h1, h2, h3, .marke { font-family: "Excalifont", system-ui, sans-serif; font-weight: 400; }
+h1 { font-size: 1.9rem; margin: 0 0 .4rem; }
+h2 { font-size: 1.45rem; margin: 1.6rem 0 .5rem; }
+h3 { font-size: 1.15rem; margin: 1rem 0 .3rem; }
+p { margin: .4rem 0 .8rem; }
+a { color: var(--blau-d); }
+:focus-visible { outline: 3px solid var(--fokus); outline-offset: 2px; }
+.leise { color: var(--leise); }
+.klein { font-size: .88rem; }
+
+/* ---------- Kopf ---------- */
+.kopf {
+  position: sticky; top: 0; z-index: 2;
+  background: var(--papier);
+  border-bottom: 2px solid var(--linie);
+  padding: .5rem 16px .6rem;
+}
+.kopf-titel { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .8rem; }
+.marke { font-size: 1.35rem; color: var(--tinte); text-decoration: none; }
+.rollen, .runden { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .45rem; }
+.rollen a, .runden button {
+  border: 2px solid var(--linie); border-radius: 999px;
+  padding: .25rem .8rem; background: var(--karte); color: var(--tinte);
+  text-decoration: none; font: inherit; font-size: .92rem; cursor: pointer;
+}
+.rollen a[aria-current="page"] { background: var(--tinte); color: var(--papier); }
+.runden button[aria-pressed="true"] { background: var(--gelb); font-weight: 600; }
+.runden[hidden] { display: none; }
+
+main { max-width: 52rem; margin: 0 auto; padding: 1rem 16px 4rem; }
+
+/* ---------- Karten und Kästen ---------- */
+.karte {
+  background: var(--karte);
+  border: 2px solid var(--linie);
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  margin: .8rem 0;
+}
+.karte.gelb { background: var(--gelb); }
+.karte.blau { background: var(--blau); }
+.karte.gruen { background: var(--gruen); }
+.hinweis {
+  border-left: 5px solid var(--blau-d);
+  background: var(--blau);
+  padding: .6rem .9rem; border-radius: 0 10px 10px 0; margin: .8rem 0;
+}
+.raster { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+.wahl {
+  display: block; text-align: left; width: 100%;
+  border: 2px solid var(--linie); border-radius: 14px; background: var(--karte); color: var(--tinte);
+  padding: .9rem 1rem; font: inherit; cursor: pointer; text-decoration: none;
+}
+.wahl strong { display: block; font-family: "Excalifont", system-ui, sans-serif; font-weight: 400; font-size: 1.35rem; }
+.wahl:hover { background: var(--gelb); }
+
+/* ---------- Knöpfe und Felder ---------- */
+button.knopf, a.knopf {
+  display: inline-block; border: 2px solid var(--linie); border-radius: 10px;
+  background: var(--karte); color: var(--tinte); font: inherit; font-weight: 600;
+  padding: .55rem 1rem; cursor: pointer; text-decoration: none; min-height: 44px;
+}
+button.knopf.haupt, a.knopf.haupt { background: var(--tinte); color: var(--papier); }
+button.knopf:disabled { opacity: .45; cursor: not-allowed; }
+.knopfreihe { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: .6rem 0; }
+input[type="text"], input[type="url"], input[inputmode], textarea {
+  font: inherit; color: var(--tinte); background: var(--karte);
+  border: 2px solid var(--linie); border-radius: 8px; padding: .45rem .6rem; width: 100%;
+}
+textarea { min-height: 5.5rem; resize: vertical; }
+label { font-weight: 600; }
+
+/* ---------- Tabellen ---------- */
+.tabelle-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: left; padding: .4rem .5rem; border-bottom: 1px solid var(--zart); vertical-align: top; }
+th { font-size: .9rem; color: var(--leise); font-weight: 600; }
+td.zahl, th.zahl { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* ---------- Gästekarte ---------- */
+.gastkarte { background: var(--gelb); }
+.gastkarte .sagt { font-family: "Excalifont", system-ui, sans-serif; font-size: 1.55rem; line-height: 1.3; margin: .3rem 0 .9rem; }
+.gastkarte .nachfrage { font-weight: 600; color: var(--rot-d); }
+.gastkarte .draengeln { font-style: italic; }
+.zaehler { font-size: .95rem; color: var(--leise); }
+
+/* ---------- Beobachtung ---------- */
+.uhr {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .8rem;
+  background: var(--karte); border: 2px solid var(--linie); border-radius: 14px; padding: .7rem 1rem;
+}
+.uhr-zeit { font: 700 2.6rem/1 ui-monospace, "JetBrains Mono", Menlo, monospace; min-width: 6.5rem; font-variant-numeric: tabular-nums; }
+.uhr.knapp .uhr-zeit { color: var(--rot-d); }
+.uhr.vorbei { background: var(--rot); }
+.gast-zeile { display: grid; grid-template-columns: 1fr 9rem; gap: .3rem .8rem; align-items: center; }
+.gast-zeile + .gast-zeile { border-top: 1px solid var(--zart); padding-top: .6rem; margin-top: .6rem; }
+.gast-zeile .soll { font-weight: 700; font-variant-numeric: tabular-nums; }
+.gast-zeile details { grid-column: 1 / -1; font-size: .9rem; }
+.urteil { grid-column: 1 / -1; font-weight: 600; font-size: .95rem; min-height: 1.2em; }
+.urteil.ok { color: var(--gruen-d); }
+.urteil.falsch { color: var(--rot-d); }
+.stand { font-size: 1.1rem; font-weight: 600; }
+.zitate { list-style: none; padding: 0; margin: .5rem 0 0; }
+.zitate li {
+  display: flex; flex-wrap: wrap; gap: .4rem .6rem; align-items: center; justify-content: space-between;
+  background: var(--karte); border: 1px solid var(--zart); border-radius: 10px; padding: .45rem .6rem; margin: .35rem 0;
+}
+.zitate li .text::before { content: "„"; }
+.zitate li .text::after { content: "“"; }
+.zitat-art { display: flex; gap: .3rem; flex-wrap: wrap; }
+.zitat-art button { border: 2px solid var(--linie); border-radius: 999px; background: var(--karte); color: var(--tinte); font: inherit; font-size: .85rem; padding: .15rem .6rem; cursor: pointer; }
+.zitat-art button[aria-pressed="true"] { background: var(--blau); font-weight: 600; }
+.zitat-art button.ux[aria-pressed="true"] { background: var(--gelb); }
+button.weg { border: 0; background: none; color: var(--leise); font: inherit; cursor: pointer; padding: .2rem .4rem; }
+
+/* ---------- Preistabelle (Runde B) ---------- */
+.preistabelle { background: #fffdf8; color: #1d1d1f; border: 2px dashed #6b645b; }
+.preistabelle h2 { margin-top: 0; }
+.preistabelle td:last-child { text-align: right; white-space: nowrap; font-weight: 700; }
+.preistabelle th, .preistabelle td { border-bottom-color: #e7dfd4; }
+
+/* ---------- Usability-Karte ---------- */
+.prinzip { border-top: 1px solid var(--zart); padding: .6rem 0; }
+.prinzip:first-of-type { border-top: 0; }
+.prinzip label { display: flex; gap: .5rem; align-items: flex-start; cursor: pointer; }
+.prinzip input[type="checkbox"] { width: 1.3rem; height: 1.3rem; margin-top: .15rem; flex: none; }
+.prinzip .erkl { margin: .2rem 0 .3rem 1.8rem; font-size: .93rem; color: var(--leise); }
+.prinzip textarea { margin-left: 1.8rem; width: calc(100% - 1.8rem); min-height: 3.2rem; }
+.zaehlwerk { font-weight: 600; }
+.zaehlwerk.voll { color: var(--gruen-d); }
+
+@media (max-width: 30rem) {
+  body { font-size: 16px; }
+  .gast-zeile { grid-template-columns: 1fr 7rem; }
+  th, td { padding: .35rem .3rem; }
+  .uhr-zeit { font-size: 2.2rem; }
+}

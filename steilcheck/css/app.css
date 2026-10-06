@@ -1,0 +1,169 @@
+body {
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 11px;
+    margin: 0;
+    min-width: 1400px;
+    background: #e8e8e8;
+}
+
+.kopf {
+    background: #2b4a7a;
+    color: white;
+    padding: 6px 10px;
+    height: 20px;
+}
+
+.titel {
+    font-weight: bold;
+}
+
+.ampel {
+    margin-left: 900px;
+    padding: 2px 6px;
+}
+
+.ampel.gruen { background: green; }
+.ampel.gelb { background: orange; }
+.ampel.rot { background: red; }
+
+.schritt {
+    float: right;
+}
+
+.inhalt {
+    width: 1200px;
+    padding: 10px;
+}
+
+fieldset {
+    background: white;
+    border: 1px solid #999;
+    margin-bottom: 6px;
+    width: 600px;
+}
+
+legend {
+    font-weight: bold;
+}
+
+.form td {
+    padding: 1px 4px;
+}
+
+.form input {
+    font-size: 11px;
+    width: 160px;
+    height: 14px;
+}
+
+.form input[type=checkbox] {
+    width: 10px;
+    height: 10px;
+}
+
+.liste {
+    border-collapse: collapse;
+}
+
+.liste td, .liste th {
+    border: 1px solid #ccc;
+    padding: 2px 6px;
+}
+
+.fehler {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.summe {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.bon {
+    background: #fafafa;
+    border: 1px dashed #999;
+    padding: 6px;
+}
+
+.abbrechen {
+    position: absolute;
+    left: 20px;
+    top: 560px;
+    width: 140px;
+    height: 60px;
+    font-size: 28px;
+    background: #d00000;
+    color: white;
+    border: 0;
+}
+
+.weiter {
+    position: absolute;
+    left: 1330px;
+    top: 560px;
+    width: 30px;
+    height: 22px;
+    font-size: 12px;
+    background: #d0d0d0;
+    color: #888;
+    border: 1px solid #bbb;
+}
+
+.bon-knopf {
+    font-size: 12px;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
+
+.loading-progress {
+    position: absolute;
+    display: block;
+    width: 8rem;
+    height: 8rem;
+    inset: 20vh 0 auto 0;
+    margin: 0 auto 0 auto;
+}
+
+.loading-progress circle {
+    fill: none;
+    stroke: #e0e0e0;
+    stroke-width: 0.6rem;
+    transform-origin: 50% 50%;
+    transform: rotate(-90deg);
+}
+
+.loading-progress circle:last-child {
+    stroke: #1b6ec2;
+    stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
+    transition: stroke-dasharray 0.05s ease-in-out;
+}
+
+.loading-progress-text {
+    position: absolute;
+    text-align: center;
+    font-weight: bold;
+    inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+}
+
+.loading-progress-text:after {
+    content: var(--blazor-load-percentage-text, "Loading");
+}
