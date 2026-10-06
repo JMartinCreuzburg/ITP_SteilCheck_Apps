@@ -108,8 +108,10 @@
         </div>
         <div class="hinweis">
           <p><strong>Die Geräte bleiben am Platz, die Personen wechseln.</strong> Nach jeder Runde rückt ihr einen Platz weiter:
-            Wer Thekenkraft war, wird Beobachtung, und so weiter. So liegen am Ende alle Messwerte auf dem Gerät der Beobachtung.</p>
-          <p class="klein">Die Runde stellt ihr oben ein. Was ihr eintragt, bleibt nur in diesem Browser.</p>
+            Gast wird Thekenkraft, Thekenkraft wird Beobachtung, Beobachtung wird Gast. Zu viert gibt es zwei Gäste: Wer die
+            Gästekarten vorgelesen hat, wird Thekenkraft, der andere Gast liest in der nächsten Runde vor.
+            So liegen am Ende alle Messwerte auf dem Gerät der Beobachtung.</p>
+          <p class="klein">Die Runde stellt ihr oben ein, nach jedem Wechsel auf allen drei Geräten. Was ihr eintragt, bleibt nur in diesem Browser.</p>
         </div>
         <h2>Nach der dritten Runde</h2>
         <p>Auf dem Gerät der Beobachtung öffnet ihr die <a href="#auswertung">Auswertung</a>: Messwerte, Usability-Karte und Zitate.
@@ -186,6 +188,9 @@
           <button class="knopf" data-tu="uhr-reset">↺ neu</button>
           <span class="leise klein">Nach 4 Minuten ist Schluss, auch mitten im Check-in. Das ist der Messwert.</span>
         </div>
+        <p class="karte gelb" id="wechsel" hidden>${r === 'C'
+          ? '<strong>Zeit!</strong> Das war die letzte Runde. Öffnet auf diesem Gerät die <a href="#auswertung">Auswertung</a>.'
+          : `<strong>Zeit!</strong> Rückt einen Platz weiter und stellt <strong>auf allen drei Geräten</strong> oben ${esc(rundenName(r === 'A' ? 'B' : 'C'))} ein.`}</p>
         <section class="karte">
           <h2 style="margin-top:0">Preise prüfen</h2>
           <p class="leise klein">Tragt den Betrag ein, den die Thekenkraft nennt. Die Erwartungswerte sieht nur ihr.</p>
@@ -227,15 +232,15 @@
         </section>
         <section class="karte">
           <h2 style="margin-top:0">Usability-Karte</h2>
-          <p>Markiert <strong>drei Prinzipien</strong>, die SteilCheck verletzt hat, und schreibt zu jedem einen Beleg aus der Rush-Hour dazu.
-            <span class="zaehlwerk ${gewaehlt >= 3 ? 'voll' : ''}">${gewaehlt} von 3 markiert</span></p>
+          <p>Markiert <strong>zwei Prinzipien</strong>, die SteilCheck verletzt hat, und schreibt zu jedem einen Beleg aus der Rush-Hour dazu.
+            <span class="zaehlwerk ${gewaehlt >= 2 ? 'voll' : ''}">${gewaehlt} von 2 markiert</span></p>
           <h3>Die 5 E’s</h3>${PRINZIPIEN.filter((p) => p.quelle === '5 E’s').map(prinzip).join('')}
           <h3>ISO 9241-110: Grundsätze der Dialoggestaltung</h3>${PRINZIPIEN.filter((p) => p.quelle !== '5 E’s').map(prinzip).join('')}
         </section>
         <section class="karte">
           <h2 style="margin-top:0">Zitate sortieren</h2>
-          <p><strong>„Hab’s geschafft“:</strong> Konnte man die Aufgabe effektiv und effizient erledigen? Das ist <strong>Usability</strong>.<br>
-            <strong>„Ich trau dem Preis nicht“:</strong> Wie hat es sich angefühlt: Vertrauen, Kontrolle, Stress? Das ist <strong>User Experience (UX)</strong>.</p>
+          <p><strong>Ging es? Wie schnell?</strong> Konnte man die Aufgabe richtig und ohne Umwege erledigen? Das ist <strong>Usability</strong>.<br>
+            <strong>Wie hat es sich angefühlt?</strong> Vertrauen, Kontrolle, Stress, Ärger? Das ist <strong>User Experience (UX)</strong>.</p>
           ${zitate.length ? `<ul class="zitate">${zitate.map((z) => `
             <li><span><span class="text">${esc(z.text)}</span> <span class="leise klein">Runde ${z.runde}</span></span>
               <span class="zitat-art">
@@ -296,6 +301,8 @@
     $('#uhr-zeit').textContent = sek === 0 ? 'Zeit!' : `${Math.floor(sek / 60)}:${String(sek % 60).padStart(2, '0')}`;
     el.classList.toggle('knapp', sek > 0 && sek <= 30);
     el.classList.toggle('vorbei', sek === 0);
+    const wechsel = $('#wechsel');
+    if (wechsel) wechsel.hidden = sek !== 0;
     const knopf = el.querySelector('[data-tu="uhr"]');
     knopf.textContent = u.laeuft ? 'Pause' : sek === 0 ? 'vorbei' : u.rest < RUNDENZEIT ? 'weiter' : 'Start';
     knopf.disabled = sek === 0;
@@ -334,7 +341,7 @@
       return `**${titel}**\n` + (z.length ? z.map((x) => `- „${x.text}“ (Runde ${x.runde})`).join('\n') : '- _keins_');
     };
     const ohne = zitate.filter((x) => !x.art);
-    const zitateMd = [block('usability', 'Usability – „Hab’s geschafft“'), block('ux', 'UX – „Ich trau dem Preis nicht“')]
+    const zitateMd = [block('usability', 'Usability – Ging es? Wie schnell?'), block('ux', 'UX – Wie hat es sich angefühlt?')]
       .concat(ohne.length ? ['**noch nicht sortiert**\n' + ohne.map((x) => `- „${x.text}“ (Runde ${x.runde})`).join('\n')] : [])
       .join('\n\n');
     return { messwerte: messwerteMd, prinzipien: prinzipienMd, zitate: zitateMd };
